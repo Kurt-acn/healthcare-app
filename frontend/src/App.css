@@ -1,0 +1,74 @@
+.page {
+  max-width: 960px;
+  margin: 28px auto;
+  padding: 0 16px;
+  font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+  color: #eaf0ff;
+}
+
+body { background: #0b1220; margin: 0; }
+
+.header h1 { margin: 0 0 6px; font-size: 28px; }
+.header p { margin: 0 0 18px; color: #a9b7d6; }
+
+.card {
+  background: #111a2e;
+  border: 1px solid #233153;
+  border-radius: 12px;
+  padding: 16px;
+  margin: 12px 0;
+}
+
+.label { display: block; margin-bottom: 8px; color: #a9b7d6; }
+.labelInline { color: #a9b7d6; }
+
+.textarea {
+  width: 100%;
+  padding: 12px;
+  border-radius: 10px;
+  border: 1px solid #233153;
+  background: #0d1730;
+  color: #eaf0ff;
+  resize: vertical;
+}
+
+.row { display: flex; gap: 12px; align-items: center; flex-wrap: wrap; margin-top: 12px; }
+
+.input {
+  width: 90px;
+  padding: 10px;
+  border-radius: 10px;
+  border: 1px solid #233153;
+  background: #0d1730;
+  color: #eaf0ff;
+}
+
+.btn {
+  padding: 10px 14px;
+  border-radius: 10px;
+  border: 1px solid #233153;
+  background: #6aa9ff;
+  color: #081022;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.btn:disabled { opacity: 0.6; cursor: not-allowed; }
+
+.link { color: #6aa9ff; text-decoration: none; font-weight: 600; }
+
+.answer {
+  white-space: pre-wrap;
+  background: #0d1730;
+  border: 1px solid #233153;
+  border-radius: 10px;
+  padding: 12px;
+  min-height: 80px;
+}
+
+.citations { margin: 0; padding-left: 18px; }
+.citationItem { margin: 10px 0; }
+
+.muted { color: #a9b7d6; }
+.small { font-size: 12px; }
+.error { margin-top: 10px; color: #ff9090; font-weight: 700; }
