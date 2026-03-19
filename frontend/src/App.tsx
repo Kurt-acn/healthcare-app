@@ -22,9 +22,7 @@ type ChatResponse = {
   citations: Citation[];
 };
 
-function uid() {
-  return Math.random().toString(16).slice(2) + Date.now().toString(16);
-}
+
 
 export default function App() {
   const [messages, setMessages] = useState<ChatMessage[]>([]);
@@ -127,7 +125,7 @@ export default function App() {
         </button>
 
         <div className="sidebarHint">
-          Messages are saved in <code>localStorage</code>.
+          Messages are saved in <code>{lastCitations.map(c => c.source).join(", ")}</code>.
         </div>
       </aside>
 
