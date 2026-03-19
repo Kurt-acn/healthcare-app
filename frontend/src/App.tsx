@@ -1,4 +1,4 @@
-import { useState, useEffect, useRef } from "react";
+import { useState, useEffect } from "react";
 import "./App.css";
 
 type ChatMessage = {
@@ -22,9 +22,7 @@ type ChatResponse = {
   citations: Citation[];
 };
 
-
-
-export default function App() {
+function App() {
   const [messages, setMessages] = useState<ChatMessage[]>([]);
   const [input, setInput] = useState("");
   const [topK, setTopK] = useState(5);
@@ -32,7 +30,6 @@ export default function App() {
   const [lastCitations, setLastCitations] = useState<Citation[]>([]);
   const [error, setError] = useState<string | null>(null);
   const [hydrated, setHydrated] = useState(false);
-  const endRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     try {
@@ -103,110 +100,57 @@ export default function App() {
       setLoading(false);
     }
   }
-  
+
   return (
-    <div className="layout">
-      {/* Sidebar */}
-      <aside className="sidebar">
-        <div className="brand">
-          <span className="brandDot" />
-          <div className="brandText">
-            <div className="brandTitle">Healthcare Bot</div>
-            <div className="brandSub">Your personal health assistant</div>
-          </div>
+    <div className="chat">
+      {messages.map((m, i) => (
+        <div key={i} className={`bubble ${m.role}`}>
+          <div className="meta">{m.role === "user" ? "You" : "Assistant"}</div>
+          <div className="text">{m.content}</div>
         </div>
-
-        <button className="newChatBtn" onClick={() => {
-          setMessages([]);
-          setLastCitations([]);
-          localStorage.removeItem("chat_history");
-        }}>
-          + New chat
-        </button>
-
-        <div className="sidebarHint">
-          Messages are saved in <code>{lastCitations.map(c => c.source).join(", ")}</code>.
-        </div>
-      </aside>
-
-      {/* Chat */}
-      <main className="chat">
-        <header className="chatHeader">
-          <div className="chatHeaderTitle">Conversation</div>
-          <div className="chatHeaderSub">Assistant left • You right</div>
-        </header>
-
-        <div className="messages">
-          {messages.map((m, i) => (
-            <div
-              key={i}
-              className={`msgRow ${m.role === "user" ? "right" : "left"}`}
-            >
-              {/* Avatar on the side */}
-              <div className={`avatar ${m.role}`}>
-                {m.role === "user" ? "You" : "AI"}
-              </div>
-
-              {/* Bubble area */}
-              <div className="msgBody">
-                <div className="msgMeta">
-                  <span className="msgName">{m.role === "user" ? "You" : "AI"}</span>
-                  <span className="msgTime">
-                    {new Date(m.ts).toLocaleTimeString([], {
-                      hour: "2-digit",
-                      minute: "2-digit",
-                    })}
-                  </span>
-                </div>
-
-                <div className={`bubble ${m.role}`}>
-                  {m.content.split("\n").map((line, idx) => (
-                    <span key={idx}>
-                      {line}
-                      <br />
-                    </span>
-                  ))}
-                </div>
-              </div>
-            </div>
-          ))}
-
-          <div ref={endRef} />
-        </div>
-        {loading && (
-        <div className="msgTime">
-          <div className="composerHint">Assistant Thinking…</div>
+      ))}
+      {loading && (
+        <div className="bubble assistant">
+          <div className="meta">Assistant</div>
+          <div className="text">Thinking…</div>
         </div>
       )}
 
-        {/* Composer */}
-        <div className="composerWrap">
-          <div className="composer">
-            <textarea
-              placeholder="Ask anything…"
-              value={input}
-              onChange={(e) => setInput(e.target.value)}
-              onKeyDown={(e) => {
-                if (e.key === "Enter" && !e.shiftKey) {
-                  e.preventDefault();
-                  sendMessage();
-                }
-              }}
-              
-              rows={1}
-            />
-            <button className="sendBtn"   disabled={loading || input.trim().length < 2}
+      <div className="composer">
+        <textarea
+          value={input}
+          onChange={(e) => setInput(e.target.value)}
+          placeholder="Type your question..."
+          rows={2}
+        />
+        <div className="row">
+          <label>Top K</label>
+          <input
+            type="number"
+            min={1}
+            max={10}
+            value={topK}
+            onChange={(e) => setTopK(Number(e.target.value))}
+          />
+          <button
+            disabled={loading || input.trim().length < 2}
             onClick={sendMessage}
           >
             {loading ? "Sending..." : "Send"}
-            </button>
-          </div>
-
-          <div className="composerHint">
-            Enter to send • Shift+Enter for newline
-          </div>
+          </button>
         </div>
-      </main>
+      </div>
+      <button
+        onClick={() => {
+          setMessages([]);
+          setLastCitations([]);
+          localStorage.removeItem("chat_history");
+        }}
+      >
+        Clear
+      </button>
     </div>
   );
 }
+
+export default App;
