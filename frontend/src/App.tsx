@@ -33,6 +33,7 @@ export default function App() {
   const [error, setError] = useState<string | null>(null);
   const [hydrated, setHydrated] = useState(false);
   const endRef = useRef<HTMLDivElement>(null);
+  const API_BASE = import.meta.env.VITE_API_BASE;
 
   useEffect(() => {
     try {
@@ -72,7 +73,7 @@ export default function App() {
         top_k: topK,
       };
 
-      const r = await fetch("/chat", {
+      const r = await fetch(`${API_BASE}/chat`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(payload),
