@@ -25,6 +25,7 @@ const [question, setQuestion] = useState("What does the data say about pneumonia
   const [loading, setLoading] = useState(false);
   const [resp, setResp] = useState<AskResponse | null>(null);
   const [error, setError] = useState<string | null>(null);
+  const API_BASE = import.meta.env.VITE_API_BASE;
 
   async function ask() {
     setLoading(true);
@@ -32,7 +33,7 @@ const [question, setQuestion] = useState("What does the data say about pneumonia
     setResp(null);
 
     try {
-      const r = await fetch("/ask", {
+      const r = await fetch(`${API_BASE}/ask`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ question, top_k: topK })
