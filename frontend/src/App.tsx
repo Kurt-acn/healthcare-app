@@ -35,6 +35,7 @@ export default function App() {
   const endRef = useRef<HTMLDivElement>(null);
   const API_BASE = import.meta.env.VITE_API_BASE;
 
+
   useEffect(() => {
     try {
       const saved = localStorage.getItem("chat_history");
@@ -73,7 +74,7 @@ export default function App() {
         top_k: topK,
       };
 
-      const r = await fetch(`${API_BASE}/chat`, {
+      const r = await fetch(`/chat`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(payload),
@@ -196,6 +197,22 @@ export default function App() {
               
               rows={1}
             />
+           
+<div className="row">
+  <label>Top K</label>
+  <select
+    value={topK}
+    onChange={(e) => setTopK(Number(e.target.value))}
+  >
+    {Array.from({ length: 10 }, (_, i) => i + 1).map((n) => (
+      <option key={n} value={n}>
+        {n}
+      </option>
+    ))}
+  </select>
+</div>
+
+
             <button className="sendBtn"   disabled={loading || input.trim().length < 2}
             onClick={sendMessage}
           >
@@ -209,17 +226,8 @@ export default function App() {
         </div>
       </main>
 
-      <div className="row">
-          <label>Top K</label>
-          <input
-            type="number"
-            min={1}
-            max={10}
-            value={topK}
-            onChange={(e) => setTopK(Number(e.target.value))}
-          />
-          </div>
           <div>{error}</div>
+          
     </div>
   );
 }

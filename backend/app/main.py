@@ -17,7 +17,7 @@ app = FastAPI(title=settings.app_name)
 app.add_middleware(
     CORSMiddleware,
     allow_origins=[
-        "https://zealous-river-0d94b310f.4.azurestaticapps.net"
+        "http://localhost:5173/"
     ],
     allow_credentials=True,
     allow_methods=["*"],
