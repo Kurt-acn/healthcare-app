@@ -74,7 +74,7 @@ export default function App() {
         top_k: topK,
       };
 
-      const r = await fetch(`/chat`, {
+      const r = await fetch(`${API_BASE}/chat`, {  /*Remove  ${API_BASE} for local testing */
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(payload),
