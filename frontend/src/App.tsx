@@ -74,7 +74,7 @@ export default function App() {
         top_k: topK,
       };
 
-      const r = await fetch(`${API_BASE}/chat`, {  /*Remove  ${API_BASE} for local testing */
+      const r = await fetch(`/chat`, {  /*Remove  ${API_BASE} for local testing */
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(payload),
@@ -90,7 +90,18 @@ export default function App() {
       };
 
       setMessages([...nextMessages, assistantMsg]);
-      setLastCitations(data.citations || []);
+      setLastCitations((prev) => {
+        const citationKey = (c: Citation) =>
+          [c.title, c.source, c.path, c.chunk_id].filter(Boolean).join("|");
+        const seen = new Set(prev.map(citationKey));
+        const unique = (data.citations || []).filter((c) => {
+          const key = citationKey(c);
+          if (!key || seen.has(key)) return false;
+          seen.add(key);
+          return true;
+        });
+        return [...prev, ...unique];
+      });
     } catch (e: any) {
       setError(e?.message ?? "Unknown error");
       setMessages([
@@ -127,7 +138,10 @@ export default function App() {
         </button>
 
         <div className="sidebarHint">
-          Messages are saved in <code>{lastCitations.map(c => c.source).join(", ")}</code>.
+          <div className="chatHeaderTitle">Citations</div>
+          {lastCitations.map((c, i) => (
+          <div key={i}>[{i+1}] - {c.title}</div>
+        ))}
         </div>
       </aside>
 
@@ -199,8 +213,8 @@ export default function App() {
             />
            
 <div className="row">
-  <label>Top K</label>
   <select
+    className="topK"
     value={topK}
     onChange={(e) => setTopK(Number(e.target.value))}
   >
@@ -216,7 +230,7 @@ export default function App() {
             <button className="sendBtn"   disabled={loading || input.trim().length < 2}
             onClick={sendMessage}
           >
-            {loading ? "Sending..." : "Send"}
+            {loading ? "Asking..." : "Ask"}
             </button>
           </div>
 
@@ -224,10 +238,10 @@ export default function App() {
             Enter to send • Shift+Enter for newline
           </div>
         </div>
+         <div></div>  
       </main>
-
-          <div>{error}</div>
-          
     </div>
+
+    
   );
 }

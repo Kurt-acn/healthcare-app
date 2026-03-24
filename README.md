@@ -15,7 +15,7 @@ This project is a **Healthcare Retrieval‑Augmented Generation (RAG)** web appl
 - Search across **structured** (JSON/CSV-like rows) and **unstructured** (PDF/DOCX/TXT) sources in one index
 - Answers constrained to retrieved sources + citations
 
-## 2) Architecture (Plan B1)
+## 2) Architecture
 
 - **Frontend:** Azure Static Web Apps (SWA) hosts the React/Vite build
 - **Backend:** Azure App Service hosts FastAPI (Python 3.12) and keeps secrets server-side

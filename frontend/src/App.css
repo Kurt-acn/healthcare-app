@@ -263,3 +263,13 @@ textarea {
   .sidebar { display: none; }
   .msgBody { max-width: 86vw; }
 }
+
+.topK{
+  background-color: #06210f;
+  padding: 10px;
+  border-radius: 12px;
+  color: var(--text);
+  font-size: 14px;
+  line-height: 1.4;
+  margin-top: 8px;
+}
