@@ -238,7 +238,7 @@ export default function App() {
             Enter to send • Shift+Enter for newline
           </div>
         </div>
-         <div></div>  
+         <div className="hidden">{error}</div>  
       </main>
     </div>
 
